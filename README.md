@@ -25,7 +25,24 @@ docker run  pj/ping:1 (running new image, if you do run X 2 it runs 2 separate i
 
 docker stats (checking how many dockers are running right now)
 
-
+#delete all lines / 3 lines of docker images
+docker images | awk '{print $3}' | xargs docker rmi
+#afficher
+docker images | awk '{print $3}' | xargs echo
+#chercher contenaires actives
+docker ps -a
+#supprimer conteneur
+docker rm [nom de docker] OU [ID de docker]
+#creer un conteneur
+docker run -d alpine ping google.fr # option -d fait deamoniser (deamonise) mettre en service
+docker ps # on voit conteneur tourner
+docker stats #voir les untilisations de CPU en temps reel
+docker --help #aide commandes docker
+docker ps --help #aide flags docker
+docker stop id/nom
+docker start id/nom
+docker logs nom_conteneur #affiche les logs d'un conteneur
+docker ps -a | awk '{print $1}' |wargs docker rm #remove all containers
 #script examples
 
 root@inception:~# touch test.sh
