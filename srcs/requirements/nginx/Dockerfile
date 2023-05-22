@@ -1,4 +1,4 @@
-FROM alpine:3.17.3
+FROM debian:buster
 
 RUN apt-get update && \
     apt-get install -y nginx openssl && \
