@@ -4,7 +4,8 @@ RUN apt-get update && \
     apt-get install -y nginx openssl && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    mkdir -p /etc/nginx/ssl # DIRECTORY TO SAVE THE SSL KEY && CERTIFICATE 
+    mkdir -p /etc/nginx/ssl 
+    # DIRECTORY TO SAVE THE SSL KEY && CERTIFICATE 
 
 COPY ./conf/ngnx.conf /etc/nginx/conf.d
 
