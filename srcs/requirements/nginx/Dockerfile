@@ -1,7 +1,7 @@
 FROM alpine:3.18.0
 
-RUN apt-get update -y && \
-    apt-get instll y nginx openssl && \
+RUN apt-get update && \
+    apt-get install -y nginx openssl && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir -p /etc/nginx/ssl 
