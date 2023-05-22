@@ -9,6 +9,7 @@
 5.  Install docker from a package: 
 	Download the necessary repositories for Debian from the official site Docker: 
 	https://docs.docker.com/engine/install/debian/ (Install from a package)
+6.	sudo apt install docker-compose
 6.  Install Alpine on the Docker container
 	sudo docker pull alpine
 	docker images
