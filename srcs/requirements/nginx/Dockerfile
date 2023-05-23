@@ -1,4 +1,4 @@
-FROM debian:buster
+﻿FROM debian:buster
 
 RUN apt-get update && \
     apt-get install -y nginx openssl && \
@@ -8,7 +8,7 @@ RUN apt-get update && \
     mkdir -p /etc/nginx/ssl 
 
 # COPY OUR CONFIG FILE TO REPLACE NGINX CONFIG FILE
-#COPY ./conf/ngnx.conf /etc/nginx/conf.d
+COPY ./conf/ngnx.conf /etc/nginx/conf.d
 
 # GENERATING SSL CERTIFICATE
 RUN openssl req -x509 -newkey rsa:4096 -sha256 -nodes -days 365 \
@@ -19,4 +19,4 @@ RUN openssl req -x509 -newkey rsa:4096 -sha256 -nodes -days 365 \
 # CONNEXION HTTPS ON PORT 443
 EXPOSE 443
 # TO LAUNCH NGINX AND MAKING SURE THAT THE CONTAINER DOES NOT STOP
-CMD ["nginx", "-g", "deamon off;"]
+CMD ["nginx", "-g", "daemon off;"]
