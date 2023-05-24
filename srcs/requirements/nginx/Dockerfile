@@ -8,7 +8,7 @@ RUN apt-get update && \
     mkdir -p /etc/nginx/ssl 
 
 # COPY OUR CONFIG FILE TO REPLACE NGINX CONFIG FILE
-COPY ./conf/ngnx.conf /etc/nginx/conf.d
+#COPY ./conf/nginx.conf /etc/nginx/conf.d
 
 # GENERATING SSL CERTIFICATE
 RUN openssl req -x509 -newkey rsa:4096 -sha256 -nodes -days 365 \
