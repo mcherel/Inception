@@ -3,16 +3,26 @@
 #guide
 1.  Install VM with ssh + xfce (1)
 	https://github.com/codesshaman/inception/
-2.  login root
+2.  login root/rootlike
 3.  apt update
 4.  apt install -y make, ufw
 5.  Install docker from a package: 
 	Download the necessary repositories for Debian from the official site Docker: 
 	https://docs.docker.com/engine/install/debian/ (Install from a package)
+	sudo chown $USER /var/run/docker.sock
+	sudo usermod -aG docker $USER
+6.	sudo reboot
+7.	sudo apt-get install -y git
+8.	ssh-keygen
+9.	cat ~/.ssh/id_rsa.pub
+10.	add generated key to the git and clone the project to the VM
+11. Port Forwarding https://github.com/codesshaman/inception/ (4)
+12. /etc/hosts/ -you need to add:	127.0.0.1 <user>.42.fr 
+
+
 6.	sudo apt install docker-compose
-6.  Install Alpine on the Docker container
-	sudo docker pull alpine
-	docker images
+
+
 
 #Docker commands exemples
 
