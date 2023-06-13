@@ -1,17 +1,65 @@
 version: "3"
 
-  services:
-  nginx:
-    build: requirements/website/
+services:
+  mariadb:
+    container_name: mariadb
+    expose:
+      - "3306"
+    build:
+      context: ./requirements/mariadb
     env_file: .env
-    container_name: website
-    ports:
-    - "80:80"
+   #environment:
+      # DB_NAME=mariadb
+      # DB_ADMIN=myadmin
+      # DB_ADMIN_PASSWORD=pass
+      #DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    networks:
+      - inception
+    volumes:
+      - mariadb:/var/lib/mysql
     restart: always
-  nginx:
-    build: requirements/intra/
+
+  wordpress:
+    container_name: wordpress
+    expose:
+      - "9000"
+    build:
+      context: ./requirements/wordpress
     env_file: .env
-    container_name: intra
-    ports:
-    - "80:80"
+    environment:
+      DB_NAME: ${DB_NAME}
+      # DB_ADMIN=myadmin
+      # DB_ADMIN_PASSWORD=pass
+      #DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+    depends_on:
+      - mariadb
+    restart: unless-stopped
+    networks:
+      - inception
+    volumes:
+      - mariadb:/var/lib/wordpress
     restart: always
+
+
+  # nginx:
+  #   build: requirements/intra/
+  #   env_file: .env
+  #   container_name: intra
+  #   ports:
+  #   - "80:80"
+  #   restart: always
+volumes:
+  wordpress:
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/${USER}/data/wordpress
+  mariadb:
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/${USER}/data/mariadb
+
+networks:
+  inception:
+    driver: bridge
