@@ -19,6 +19,6 @@ RUN    mkdir -p /var/www/html &&\
     chmod 755 /var/www/html
 
 # CONNEXION HTTPS ON PORT 443
-EXPOSE 443
+# EXPOSE 443
 # TO LAUNCH NGINX AND MAKING SURE THAT THE CONTAINER DOES NOT STOP
 CMD ["nginx", "-g", "daemon off;"]
