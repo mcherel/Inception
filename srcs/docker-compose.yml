@@ -2,43 +2,66 @@ version: "3"
 
 services:
   mariadb:
-    container_name: mariadb
-    expose:
-      - "3306"
     build:
       context: ./requirements/mariadb
+    image:  mariadb:v1
+    container_name: mariadb
     env_file: .env
+    expose:
+      - "3306"
    #environment:
       # DB_NAME=mariadb
       # DB_ADMIN=myadmin
       # DB_ADMIN_PASSWORD=pass
       #DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      -   mariadb_vol:/var/lib/mysql
+    restart: always
     networks:
       - inception
-    volumes:
-      - mariadb:/var/lib/mysql
-    restart: always
 
   wordpress:
-    container_name: wordpress
-    expose:
-      - "9000"
     build:
       context: ./requirements/wordpress
+    image:  wordpress:v1
+    container_name: wordpress
+    depends_on:
+      - mariadb
     env_file: .env
-    environment:
-      DB_NAME: ${DB_NAME}
+    expose:
+      - "9000"
+    # environment:
+    #   DB_NAME: ${DB_NAME}
+      # DB_ADMIN=myadmin
+      # DB_ADMIN_PASSWORD=pass
+      #DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+    volumes:
+      - wordpress_vol:/var/www/html
+    restart: always
+    networks:
+      - inception
+    #restart: unless-stopped
+
+  nginx:
+    build:
+      context: ./requirements/nginx
+    image:  nginx:v1
+    container_name: nginx
+    #env_file: .env
+    # environment:
+    #   DB_NAME: ${DB_NAME}
       # DB_ADMIN=myadmin
       # DB_ADMIN_PASSWORD=pass
       #DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
     depends_on:
-      - mariadb
-    restart: unless-stopped
+      - wordpress
+    ports: 
+      - "443:443"
+    volumes:
+      - wordpress_vol:/var/www/html
+    restart: always
     networks:
       - inception
-    volumes:
-      - mariadb:/var/lib/wordpress
-    restart: always
 
 
   # nginx:
@@ -49,16 +72,16 @@ services:
   #   - "80:80"
   #   restart: always
 volumes:
-  wordpress:
+  wordpress_vol:
     driver_opts:
       type: none
       o: bind
-      device: /home/${USER}/data/wordpress
-  mariadb:
+      device: /home/${USER}/data/wordpress # mkdir -p /home/${USER}/data/wordpress
+  mariadb_vol:
     driver_opts:
       type: none
       o: bind
-      device: /home/${USER}/data/mariadb
+      device: /home/${USER}/data/mariadb # mkdir -p /home/${USER}/data/wordpress
 
 networks:
   inception:
