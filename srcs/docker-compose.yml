@@ -9,11 +9,6 @@ services:
     env_file: .env
     expose:
       - "3306"
-   #environment:
-      # DB_NAME=mariadb
-      # DB_ADMIN=myadmin
-      # DB_ADMIN_PASSWORD=pass
-      #DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     volumes:
       -   mariadb_vol:/var/lib/mysql
     restart: always
@@ -30,14 +25,9 @@ services:
     env_file: .env
     expose:
       - "9000"
-    # environment:
-    #   DB_NAME: ${DB_NAME}
-      # DB_ADMIN=myadmin
-      # DB_ADMIN_PASSWORD=pass
-      #DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
     volumes:
       - wordpress_vol:/var/www/html
-    restart: always
+    restart: unless-stopped
     networks:
       - inception
     #restart: unless-stopped
@@ -47,30 +37,16 @@ services:
       context: ./requirements/nginx
     image:  nginx:v1
     container_name: nginx
-    #env_file: .env
-    # environment:
-    #   DB_NAME: ${DB_NAME}
-      # DB_ADMIN=myadmin
-      # DB_ADMIN_PASSWORD=pass
-      #DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
     depends_on:
       - wordpress
     ports: 
       - "443:443"
     volumes:
       - wordpress_vol:/var/www/html
-    restart: always
+    restart: unless-stopped
     networks:
       - inception
 
-
-  # nginx:
-  #   build: requirements/intra/
-  #   env_file: .env
-  #   container_name: intra
-  #   ports:
-  #   - "80:80"
-  #   restart: always
 volumes:
   wordpress_vol:
     driver_opts:
