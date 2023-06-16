@@ -9,7 +9,7 @@ RUN apt-get update -y && apt-get install -y \
     mkdir -p /run/php /var/www/html
 
 COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d
-COPY ./wp_script.sh /etc/
+COPY ./tools/wp_script.sh /etc/
 
 RUN chmod +x /etc/wp_script.sh
 
