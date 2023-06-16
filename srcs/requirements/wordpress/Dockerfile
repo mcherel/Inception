@@ -1,7 +1,7 @@
 FROM debian:buster
 
 RUN apt-get update -y && apt-get install -y \
-    curl php7.3 php-fpm php-mysql mariadb-client && \
+    curl php php-fpm php-mysql mariadb-client && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     chmod +x wp-cli.phar && \
@@ -15,5 +15,7 @@ RUN chmod +x /etc/wp_script.sh
 
 RUN chmod -R 777 /var/www/html
 WORKDIR /var/www/html
+
+#EXPOSE 9000
 
 CMD ["sh", "/etc/wp_script.sh"]
