@@ -19,6 +19,7 @@
 11. Port Forwarding https://github.com/codesshaman/inception/ (4)
 12. /etc/hosts/ -you need to add:	127.0.0.1 <user>.42.fr 
 
+mcherel-@mcherelVM:/usr/bin$ sudo chmod +x docker-compose
 
 6.	sudo apt install docker-compose
 
